@@ -7,7 +7,7 @@ Clones of various casual mobile games, created for practice using the **Unity en
 ## Games list / список игр
 **Game / игра** | **Status / статус**
 --- | ---
-🐥 **Flappy Bird** | `WIP / В процессе`
+🐥 [**Flappy Bird**](https://github.com/valeriya-dudko/casual_game_clones/tree/main/Flappy%20bird%20clone) | `Done / Завершено`
 🐍 **Snake** | `Waiting / Ожидает`
 ⚾ **Pong** | `Waiting / Ожидает`
 🟪 **Color Switch** | `Waiting / Ожидает`
