@@ -1,0 +1,36 @@
+{
+    "version": 1,
+    "name": "Touch",
+    "maps": [
+        {
+            "name": "Touch",
+            "id": "f0c486a1-9e9e-4e38-8723-5d68f445e834",
+            "actions": [
+                {
+                    "name": "TouchTap",
+                    "type": "Button",
+                    "id": "1b9469b9-400f-4f0f-a4ed-c112332e11e4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "67fe237d-21df-44ae-bb63-952fbd575c19",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchTap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
