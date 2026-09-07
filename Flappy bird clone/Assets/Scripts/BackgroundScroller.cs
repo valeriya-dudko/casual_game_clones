@@ -14,7 +14,7 @@ public class BackgroundScroller : MonoBehaviour, IScrollable
 
     private void Update()
     {
-        offset.x += speed * Time.deltaTime;
+        offset.x += speed * GameController.Instance.DifficultyMultiplier * Time.deltaTime;
         material.mainTextureOffset = offset;
     }
 

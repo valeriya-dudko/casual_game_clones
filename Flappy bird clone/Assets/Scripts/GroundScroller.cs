@@ -14,7 +14,7 @@ public class GroundScroller : MonoBehaviour, IScrollable
 
     private void Update()
     {
-        offset.x += speed * Time.deltaTime;
+        offset.x += speed * Time.deltaTime * GameController.Instance.DifficultyMultiplier;
         material.mainTextureOffset = offset;
     }
 

@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     float pipeSpawnPosYMax = 2f;
 
     public float DifficultyMultiplier { get; private set; } = 1.0f;
+    const float difficultyIncrease = 0.02f;
 
     [SerializeField]
     GameObject pipePrefab;
@@ -38,6 +39,9 @@ public class GameController : MonoBehaviour
         Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 0;
 
+        AudioController.Instance.PlayMusic("mainLevel");
+
+        UIController.Instance.InitUIObjects();
         scrollersParent = GameObject.Find("Scrollers");
         if (LevelController.Instance.FirstStart)
         {
@@ -56,6 +60,12 @@ public class GameController : MonoBehaviour
         GameObject pipe = GameObject.Instantiate(pipePrefab, position, new Quaternion(), scrollersParent.transform);
         pipeQ.Enqueue(pipe);
     }
+    public void RegeneratePipe(Vector3 position)
+    {
+        GameObject pipe = pipeQ.Dequeue();
+        pipe.transform.position = position;
+        pipeQ.Enqueue(pipe);
+    }
     public void DeQPipe()
     {
         pipeQ.Dequeue();
@@ -66,6 +76,8 @@ public class GameController : MonoBehaviour
         {
             if (pipeQ.Count < queueCapacity)
                 GeneratePipe(new Vector2(pipeSpawnPosX, Random.Range(pipeSpawnPosYMin, pipeSpawnPosYMax)));
+            else
+                RegeneratePipe(new Vector2(pipeSpawnPosX, Random.Range(pipeSpawnPosYMin, pipeSpawnPosYMax)));
             yield return new WaitForSeconds(pipeSpawnCooldown / DifficultyMultiplier);
             StartCoroutine(SpawnPipe());
         }
@@ -74,19 +86,38 @@ public class GameController : MonoBehaviour
     public void IncreaseScore()
     {
         currScore++;
+        IncreaseDifficulty();
         UIController.Instance.UpdateCurrentScoreUI(currScore);
+    }
+
+    public void IncreaseDifficulty()
+    {
+        DifficultyMultiplier += difficultyIncrease;
     }
 
     public void EndGame()
     {
         IsPlaying = false;
 
+        AudioController.Instance.PlayMusic("");
+        AudioController.Instance.PlaySFX("gameover");
+
         GameObject ScrollParent = GameObject.Find("Scrollers");
         foreach (Transform scrolls in ScrollParent.transform)
             scrolls.GetComponent<IScrollable>().StopScrolling();
+        int bestScore;
+        bestScore = PlayerPrefs.GetInt("bestScoreFBC");
+        Debug.Log(bestScore);
+        if (currScore > bestScore)
+        {
+            bestScore = currScore;
+            PlayerPrefs.SetInt("bestScoreFBC", bestScore);
+            UIController.Instance.ToggleBestScoreText(true);
+        }
+        else
+            UIController.Instance.ToggleBestScoreText(false);
 
-        UIController.Instance.ShowGameoverScreen(currScore);
-
+        UIController.Instance.ShowGameoverScreen(currScore, bestScore);
     }
 
     public void StartGame()
@@ -98,5 +129,7 @@ public class GameController : MonoBehaviour
         foreach (Transform scrolls in scrollersParent.transform)
             scrolls.GetComponent<IScrollable>().StartScrolling();
         PlayerController.Instance.rb.WakeUp();
+
+        
     }
 }

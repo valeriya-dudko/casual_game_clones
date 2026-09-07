@@ -12,7 +12,6 @@ public class TouchController : MonoBehaviour
         tapAct = playerInput.actions.FindAction("TouchTap");
     }
 
-    // start listening to events
     private void OnEnable()
     {
         tapAct.performed += TouchTap;
@@ -26,8 +25,7 @@ public class TouchController : MonoBehaviour
     void TouchTap(InputAction.CallbackContext context)
     {
         bool isTapped = context.ReadValueAsButton();
-        Debug.Log(isTapped.ToString());
-
-        PlayerController.Instance.Jump();
+        if (GameController.Instance.IsPlaying)
+            PlayerController.Instance.Jump();
     }
 }

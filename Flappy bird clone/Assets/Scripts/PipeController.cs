@@ -9,7 +9,7 @@ public class PipeController : MonoBehaviour, IScrollable
 
     private void Update()
     {
-        transform.position += Vector3.left * speed * Time.deltaTime;
+        transform.position += Vector3.left * speed * GameController.Instance.DifficultyMultiplier * Time.deltaTime;
     }
 
     public void StopScrolling()
@@ -20,10 +20,5 @@ public class PipeController : MonoBehaviour, IScrollable
     public void StartScrolling()
     {
         speed = maxSpeed;
-    }
-
-    private void OnDestroy()
-    {
-        GameController.Instance.DeQPipe();
     }
 }

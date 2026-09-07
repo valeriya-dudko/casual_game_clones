@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     {
         if (GameController.Instance.IsPlaying)
             rb.linearVelocity = Vector2.up * jumpForce;
+
+        AudioController.Instance.PlaySFX("jump");
     }
 
     private void FixedUpdate()
@@ -48,10 +50,14 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Obstacle"))
-            Die();
+        {
+            if (GameController.Instance.IsPlaying)
+                Die();
+        }
+
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Collectable"))
         {
